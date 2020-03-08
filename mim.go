@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	_ "html/template"
 	"log"
 	_ "os"
 )
@@ -31,5 +30,7 @@ func main() {
 			fmt.Printf("Dev Mode\n")
 			fmt.Printf("Http://%s%s\n", ip, *flagHttpPort)
 		}
+
+		webPage(*flagHttpPort)
 	}
 }
