@@ -10,16 +10,15 @@ func serverData() (string, error) {
 	if err != nil {
 		return ip, err
 	}
-
 	for _, iface := range ifaces {
 		if iface.Flags&net.FlagUp == 0 {
-			continue
+			continue // interface down
 		}
-		if iface.Flags&net.FlagUp == 0 {
-			continue
+		if iface.Flags&net.FlagLoopback != 0 {
+			continue // loopback interface
 		}
 		addrs, err := iface.Addrs()
-		if err != nil{
+		if err != nil {
 			return ip, err
 		}
 		for _, addr := range addrs {
@@ -30,13 +29,12 @@ func serverData() (string, error) {
 			case *net.IPAddr:
 				ip = v.IP
 			}
-
-			if ip == nil || ip.IsLoopback(){
+			if ip == nil || ip.IsLoopback() {
 				continue
 			}
 			ip = ip.To4()
 			if ip == nil {
-				continue
+				continue // not an ipv4 address
 			}
 			return ip.String(), nil
 		}

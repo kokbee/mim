@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	_"html/template"
+	_ "html/template"
 	"log"
-	_"os"
+	_ "os"
 )
 
 var (
@@ -13,7 +13,7 @@ var (
 )
 
 func main() {
-	log.SetFlags( log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.SetPrefix("mim : ")
 	flag.Parse()
 
@@ -21,15 +21,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if  *flagHttpPort != "" {
+	if *flagHttpPort != "" {
 		if *flagHttpPort == ":80" {
-			fmt.Printf("Http://%s",ip)
+			fmt.Printf("Http://%s", ip)
 
-		}else if *flagHttpPort == ":443" {
-			fmt.Printf("Https://%s",ip)
-		}else{
-			fmt.Printf("Dev Mode")
-			fmt.Printf("Http://%s%s\n", ip, flagHttpPort)
+		} else if *flagHttpPort == ":443" {
+			fmt.Printf("Https://%s", ip)
+		} else {
+			fmt.Printf("Dev Mode\n")
+			fmt.Printf("Http://%s%s\n", ip, *flagHttpPort)
 		}
 	}
 }
