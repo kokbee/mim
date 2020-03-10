@@ -4,42 +4,26 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"path/filepath"
+
+	"github.com/shurcooL/httpfs/html/vfstemplate"
 )
+
+// LoadTemplates 함수는 템플릿을 로딩합니다.
+func LoadTemplates() (*template.Template, error) {
+	t := template.New("")
+	t, err := vfstemplate.ParseGlob(assets, t, "/template/*.html")
+	return t, err
+}
 
 // 메인
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	index := template.Must(template.ParseFiles(
-		"assets/template/header.html",
-		"assets/template/base.html",
-		"assets/template/footer.html",
-	))
-	err := index.Execute(w, nil)
+	// 템플릿으로 렌더링한다.
+	w.Header().Set("Content-Type", "text/html")
+	err = TEMPLATES.ExecuteTemplate(w, "base", rcp)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-}
-
-// 파일에 따른 타입 값
-func staticType(path string) string {
-	var contentType string
-	ext := filepath.Ext(path)
-	switch ext {
-	case ".html":
-		contentType = "text/html"
-	case ".css":
-		contentType = "text/css"
-	case ".js":
-		contentType = "application/javascript"
-	case ".jpg":
-		contentType = "image/jpeg"
-	case ".png":
-		contentType = "image/png"
-	default:
-		contentType = "text/plain"
-	}
-
-	return contentType
 }
 
 func webPage(port string) {

@@ -30,7 +30,7 @@ func main() {
 			fmt.Printf("Dev Mode\n")
 			fmt.Printf("Http://%s%s\n", ip, *flagHttpPort)
 		}
-
+		LoadTemplates()
 		webPage(*flagHttpPort)
 	}
 }
