@@ -5,10 +5,19 @@
 {{ template "header" }}
 <!--End haed-->
 <body>
-  <div class="wrapper">
+  <div id="wrapper">
     {{ template "sidebar" }}
-    {{ template "index" }}
-    {{ template "footer" }}
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+      {{ template "topbar" }}
+      <!-- Start handler -->
+      {{ template "index" }}
+      <!-- End handler-->
+      {{ template "footer" }}
+      </div>
+      <!-- End Main Content -->
+    </div>
     {{ template "scroll" }}
   </div>
 <!-- End Page Wrapper -->
